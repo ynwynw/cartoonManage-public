@@ -103,9 +103,7 @@
 
 ## 五、浏览地址
 
-前端访问地址：http://localhost:8080/
-
-用户账号/密码：student/admin
+前端访问地址：http://localhost:8088/
 
 管理员账号/密码：admin/admin  
 
@@ -116,9 +114,9 @@
    若为maven项目，导入成功后请执行maven clean;maven install命令，然后运行；
 3. 修改application.yml 里面的数据库配置和redis配置
 4. 启动项目后端项目 
-5. vscode打开system-admin-vue-main项目，
+5. vscode打开apm-ui项目，
 6. 打开终端，执行npm install 依赖下载完成后执行 npm run dev,执行成功后会显示访问地址
-7. 访问  http://localhost:8080/
+7. 访问  http://localhost:8088/
 
 **需要完整代码可以加qq  931708230 或者加微信 ynwwxid**
 
