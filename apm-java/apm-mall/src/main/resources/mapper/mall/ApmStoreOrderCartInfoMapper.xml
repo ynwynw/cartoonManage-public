@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.saberking.jvav.apm.mall.mapper.ApmStoreOrderCartInfoMapper">
+    
+    <resultMap type="ApmStoreOrderCartInfo" id="ApmStoreOrderCartInfoResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="cartId"    column="cart_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="cartInfo"    column="cart_info"    />
+        <result property="unique"    column="unique"    />
+    </resultMap>
+
+    <sql id="selectApmStoreOrderCartInfoVo">
+        select id, order_id, cart_id, product_id, cart_info, `unique` from apm_store_order_cart_info
+    </sql>
+
+    <select id="selectApmStoreOrderCartInfoList" parameterType="ApmStoreOrderCartInfo" resultMap="ApmStoreOrderCartInfoResult">
+        <include refid="selectApmStoreOrderCartInfoVo"/>
+        <where>  
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+        </where>
+    </select>
+    
+    <select id="selectApmStoreOrderCartInfoById" parameterType="Integer" resultMap="ApmStoreOrderCartInfoResult">
+        <include refid="selectApmStoreOrderCartInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertApmStoreOrderCartInfo" parameterType="ApmStoreOrderCartInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into apm_store_order_cart_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="cartId != null">cart_id,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="cartInfo != null and cartInfo != ''">cart_info,</if>
+            <if test="unique != null and unique != ''">`unique`,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="cartId != null">#{cartId},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="cartInfo != null and cartInfo != ''">#{cartInfo},</if>
+            <if test="unique != null and unique != ''">#{unique},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApmStoreOrderCartInfo" parameterType="ApmStoreOrderCartInfo">
+        update apm_store_order_cart_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="cartId != null">cart_id = #{cartId},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="cartInfo != null and cartInfo != ''">cart_info = #{cartInfo},</if>
+            <if test="unique != null and unique != ''">`unique` = #{unique},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deletedApmStoreOrderCartInfoByIds">
+        update apm_store_order_cart_info set is_del = 1 where order_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="deleteApmStoreOrderCartInfoById" parameterType="Integer">
+        delete from apm_store_order_cart_info where id = #{id}
+    </delete>
+
+    <delete id="deleteApmStoreOrderCartInfoByIds" parameterType="String">
+        delete from apm_store_order_cart_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.saberking.jvav.apm.mall.mapper.ApmStoreProductAttrValueMapper">
+
+    <resultMap type="ApmStoreProductAttrValue" id="ApmStoreProductAttrValueResult">
+        <result property="id" column="id"/>
+        <result property="productId" column="product_id"/>
+        <result property="suk" column="suk"/>
+        <result property="stock" column="stock"/>
+        <result property="sales" column="sales"/>
+        <result property="price" column="price"/>
+        <result property="image" column="image"/>
+        <result property="unique" column="unique"/>
+        <result property="cost" column="cost"/>
+    </resultMap>
+
+    <sql id="selectApmStoreProductAttrValueVo">
+        select id, product_id, suk, stock, sales, price, image, `unique`, cost from apm_store_product_attr_value
+    </sql>
+
+    <select id="selectApmStoreProductAttrValueList" parameterType="ApmStoreProductAttrValue"
+            resultMap="ApmStoreProductAttrValueResult">
+        <include refid="selectApmStoreProductAttrValueVo"/>
+        <where>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="suk != null  and suk != ''">and suk = #{suk}</if>
+            <if test="stock != null ">and stock = #{stock}</if>
+            <if test="sales != null ">and sales = #{sales}</if>
+            <if test="price != null ">and price = #{price}</if>
+            <if test="image != null  and image != ''">and image = #{image}</if>
+            <if test="unique != null  and unique != ''">and unique = #{unique}</if>
+            <if test="cost != null ">and cost = #{cost}</if>
+        </where>
+    </select>
+
+    <select id="selectApmStoreProductAttrValueById" parameterType="Integer" resultMap="ApmStoreProductAttrValueResult">
+        <include refid="selectApmStoreProductAttrValueVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertApmStoreProductAttrValue" parameterType="ApmStoreProductAttrValue" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into apm_store_product_attr_value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="suk != null and suk != ''">suk,</if>
+            <if test="stock != null">stock,</if>
+            <if test="sales != null">sales,</if>
+            <if test="price != null">price,</if>
+            <if test="image != null">image,</if>
+            <if test="unique != null and unique != ''">unique,</if>
+            <if test="cost != null">cost,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="suk != null and suk != ''">#{suk},</if>
+            <if test="stock != null">#{stock},</if>
+            <if test="sales != null">#{sales},</if>
+            <if test="price != null">#{price},</if>
+            <if test="image != null">#{image},</if>
+            <if test="unique != null and unique != ''">#{unique},</if>
+            <if test="cost != null">#{cost},</if>
+        </trim>
+    </insert>
+
+    <update id="updateApmStoreProductAttrValue" parameterType="ApmStoreProductAttrValue">
+        update apm_store_product_attr_value
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="suk != null and suk != ''">suk = #{suk},</if>
+            <if test="stock != null">stock = #{stock},</if>
+            <if test="sales != null">sales = #{sales},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="unique != null and unique != ''">unique = #{unique},</if>
+            <if test="cost != null">cost = #{cost},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApmStoreProductAttrValueById" parameterType="Integer">
+        delete from apm_store_product_attr_value where id = #{id}
+    </delete>
+
+    <delete id="deleteApmStoreProductAttrValueByIds" parameterType="String">
+        delete from apm_store_product_attr_value where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

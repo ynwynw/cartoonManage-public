@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.saberking.jvav.apm.mall.mapper.ApmStoreCategoryMapper">
+
+    <resultMap type="ApmStoreCategory" id="ApmStoreCategoryResult">
+        <result property="id" column="id"/>
+        <result property="pid" column="pid"/>
+        <result property="cateName" column="cate_name"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="sort" column="sort"/>
+        <result property="pic" column="pic"/>
+        <result property="isShow" column="is_show"/>
+        <result property="addTime" column="add_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+    <sql id="selectApmStoreCategoryVo">
+        select id,
+               pid,
+               cate_name,
+               sort,
+               pic,
+               is_show,
+               add_time,
+               is_del
+        from apm_store_category
+    </sql>
+
+    <sql id="selectListAddParentNameVO">
+        select c1.*, coalesce(c2.cate_name, '顶级分类') as parent_name
+        from apm_store_category c1
+                 left join apm_store_category c2 on c1.pid = c2.id
+    </sql>
+
+    <select id="selectApmStoreCategoryList" parameterType="ApmStoreCategory" resultMap="ApmStoreCategoryResult">
+        <include refid="selectApmStoreCategoryVo"/>
+        <where>
+            <if test="pid != null ">and pid = #{pid}</if>
+            <if test="cateName != null  and cateName != ''">and cate_name like concat('%', #{cateName}, '%')</if>
+            <if test="sort != null ">and sort = #{sort}</if>
+            <if test="pic != null  and pic != ''">and pic = #{pic}</if>
+            <if test="isShow != null ">and is_show = #{isShow}</if>
+            <if test="addTime != null ">and add_time = #{addTime}</if>
+            <if test="isDel != null ">and is_del = #{isDel}</if>
+        </where>
+    </select>
+
+    <select id="selectListAddParentName" parameterType="ApmStoreCategory" resultMap="ApmStoreCategoryResult">
+        <include refid="selectListAddParentNameVO"/>
+        <where>
+            <if test="pid != null ">and pid = #{pid}</if>
+            <if test="cateName != null  and cateName != ''">and cate_name like concat('%', #{cateName}, '%')</if>
+            <if test="sort != null ">and sort = #{sort}</if>
+            <if test="pic != null  and pic != ''">and pic = #{pic}</if>
+            <if test="isShow != null ">and is_show = #{isShow}</if>
+            <if test="addTime != null ">and add_time = #{addTime}</if>
+            <if test="isDel != null ">and is_del = #{isDel}</if>
+        </where>
+    </select>
+
+    <select id="selectApmStoreCategoryById" parameterType="Integer" resultMap="ApmStoreCategoryResult">
+        <include refid="selectApmStoreCategoryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertApmStoreCategory" parameterType="ApmStoreCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into apm_store_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">pid,</if>
+            <if test="cateName != null and cateName != ''">cate_name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="pic != null">pic,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="addTime != null">add_time,</if>
+            <if test="isDel != null">is_del,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">#{pid},</if>
+            <if test="cateName != null and cateName != ''">#{cateName},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="pic != null">#{pic},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="addTime != null">#{addTime},</if>
+            <if test="isDel != null">#{isDel},</if>
+        </trim>
+    </insert>
+
+    <update id="updateApmStoreCategory" parameterType="ApmStoreCategory">
+        update apm_store_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="cateName != null and cateName != ''">cate_name = #{cateName},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="pic != null">pic = #{pic},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+            <if test="isDel != null">is_del = #{isDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApmStoreCategoryById" parameterType="Integer">
+        delete
+        from apm_store_category
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteApmStoreCategoryByIds" parameterType="String">
+        delete from apm_store_category where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

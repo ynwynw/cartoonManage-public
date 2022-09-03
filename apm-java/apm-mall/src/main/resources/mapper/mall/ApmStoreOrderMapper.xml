@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.saberking.jvav.apm.mall.mapper.ApmStoreOrderMapper">
+    
+    <resultMap type="ApmStoreOrder" id="ApmStoreOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="extendOrderId"    column="extend_order_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="realName"    column="real_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="userAddress"    column="user_address"    />
+        <result property="cartId"    column="cart_id"    />
+        <result property="freightPrice"    column="freight_price"    />
+        <result property="totalNum"    column="total_num"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="totalPostage"    column="total_postage"    />
+        <result property="payPrice"    column="pay_price"    />
+        <result property="payPostage"    column="pay_postage"    />
+        <result property="deductionPrice"    column="deduction_price"    />
+        <result property="couponId"    column="coupon_id"    />
+        <result property="couponPrice"    column="coupon_price"    />
+        <result property="paid"    column="paid"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="payType"    column="pay_type"    />
+        <result property="addTime"    column="add_time"    />
+        <result property="status"    column="status"    />
+        <result property="refundStatus"    column="refund_status"    />
+        <result property="refundReasonWapImg"    column="refund_reason_wap_img"    />
+        <result property="refundReasonWapExplain"    column="refund_reason_wap_explain"    />
+        <result property="refundReasonTime"    column="refund_reason_time"    />
+        <result property="refundReasonWap"    column="refund_reason_wap"    />
+        <result property="refundReason"    column="refund_reason"    />
+        <result property="refundPrice"    column="refund_price"    />
+        <result property="deliverySn"    column="delivery_sn"    />
+        <result property="deliveryName"    column="delivery_name"    />
+        <result property="deliveryType"    column="delivery_type"    />
+        <result property="deliveryId"    column="delivery_id"    />
+        <result property="gainIntegral"    column="gain_integral"    />
+        <result property="useIntegral"    column="use_integral"    />
+        <result property="backIntegral"    column="back_integral"    />
+        <result property="mark"    column="mark"    />
+        <result property="isDel"    column="is_del"    />
+        <result property="remark"    column="remark"    />
+        <result property="isMerCheck"    column="is_mer_check"    />
+        <result property="cost"    column="cost"    />
+        <result property="verifyCode"    column="verify_code"    />
+        <result property="storeId"    column="store_id"    />
+        <result property="shippingType"    column="shipping_type"    />
+        <result property="isChannel"    column="is_channel"    />
+        <result property="isRemind"    column="is_remind"    />
+        <result property="isSystemDel"    column="is_system_del"    />
+    </resultMap>
+
+    <sql id="selectApmStoreOrderVo">
+        select id, order_id, extend_order_id, user_id, real_name, user_phone, user_address, cart_id, freight_price, total_num, total_price, total_postage, pay_price, pay_postage, deduction_price, coupon_id, coupon_price, paid, pay_time, pay_type, add_time, `status`, refund_status, refund_reason_wap_img, refund_reason_wap_explain, refund_reason_time, refund_reason_wap, refund_reason, refund_price, delivery_sn, delivery_name, delivery_type, delivery_id, gain_integral, use_integral, back_integral, mark, is_del, remark, is_mer_check, cost, verify_code, store_id, shipping_type, is_channel, is_remind, is_system_del from apm_store_order
+    </sql>
+
+    <select id="selectApmStoreOrderList" parameterType="ApmStoreOrder" resultMap="ApmStoreOrderResult">
+        <include refid="selectApmStoreOrderVo"/>
+        <where>
+            is_del=0
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="extendOrderId != null  and extendOrderId != ''"> and extend_order_id = #{extendOrderId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="realName != null  and realName != ''"> and real_name like concat('%', #{realName}, '%')</if>
+            <if test="userPhone != null  and userPhone != ''"> and user_phone = #{userPhone}</if>
+            <if test="userAddress != null  and userAddress != ''"> and user_address = #{userAddress}</if>
+            <if test="cartId != null  and cartId != ''"> and cart_id = #{cartId}</if>
+            <if test="freightPrice != null "> and freight_price = #{freightPrice}</if>
+            <if test="totalNum != null "> and total_num = #{totalNum}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="totalPostage != null "> and total_postage = #{totalPostage}</if>
+            <if test="payPrice != null "> and pay_price = #{payPrice}</if>
+            <if test="payPostage != null "> and pay_postage = #{payPostage}</if>
+            <if test="deductionPrice != null "> and deduction_price = #{deductionPrice}</if>
+            <if test="couponId != null "> and coupon_id = #{couponId}</if>
+            <if test="couponPrice != null "> and coupon_price = #{couponPrice}</if>
+            <if test="paid != null "> and paid = #{paid}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="payType != null  and payType != ''"> and pay_type = #{payType}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+            <if test="status != null "> and `status` = #{status}</if>
+            <if test="refundStatus != null "> and refund_status = #{refundStatus}</if>
+            <if test="refundReasonWapImg != null  and refundReasonWapImg != ''"> and refund_reason_wap_img = #{refundReasonWapImg}</if>
+            <if test="refundReasonWapExplain != null  and refundReasonWapExplain != ''"> and refund_reason_wap_explain = #{refundReasonWapExplain}</if>
+            <if test="refundReasonTime != null "> and refund_reason_time = #{refundReasonTime}</if>
+            <if test="refundReasonWap != null  and refundReasonWap != ''"> and refund_reason_wap = #{refundReasonWap}</if>
+            <if test="refundReason != null  and refundReason != ''"> and refund_reason = #{refundReason}</if>
+            <if test="refundPrice != null "> and refund_price = #{refundPrice}</if>
+            <if test="deliverySn != null  and deliverySn != ''"> and delivery_sn = #{deliverySn}</if>
+            <if test="deliveryName != null  and deliveryName != ''"> and delivery_name like concat('%', #{deliveryName}, '%')</if>
+            <if test="deliveryType != null  and deliveryType != ''"> and delivery_type = #{deliveryType}</if>
+            <if test="deliveryId != null  and deliveryId != ''"> and delivery_id = #{deliveryId}</if>
+            <if test="gainIntegral != null "> and gain_integral = #{gainIntegral}</if>
+            <if test="useIntegral != null "> and use_integral = #{useIntegral}</if>
+            <if test="backIntegral != null "> and back_integral = #{backIntegral}</if>
+            <if test="mark != null  and mark != ''"> and mark = #{mark}</if>
+            <if test="isMerCheck != null "> and is_mer_check = #{isMerCheck}</if>
+            <if test="cost != null "> and cost = #{cost}</if>
+            <if test="verifyCode != null  and verifyCode != ''"> and verify_code = #{verifyCode}</if>
+            <if test="storeId != null "> and store_id = #{storeId}</if>
+            <if test="shippingType != null "> and shipping_type = #{shippingType}</if>
+            <if test="isChannel != null "> and is_channel = #{isChannel}</if>
+            <if test="isRemind != null "> and is_remind = #{isRemind}</if>
+            <if test="isSystemDel != null "> and is_system_del = #{isSystemDel}</if>
+        </where>
+    </select>
+    
+    <select id="selectApmStoreOrderById" parameterType="Integer" resultMap="ApmStoreOrderResult">
+        <include refid="selectApmStoreOrderVo"/>
+        where id = #{id} and is_del=0
+    </select>
+
+    <select id="queryOrderByUserId" parameterType="ApmStoreOrder" resultMap="ApmStoreOrderResult">
+        <include refid="selectApmStoreOrderVo"/>
+        where user_id=#{userId}
+    </select>
+
+    <insert id="insertApmStoreOrder" parameterType="ApmStoreOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into apm_store_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">order_id,</if>
+            <if test="extendOrderId != null">extend_order_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="realName != null">real_name,</if>
+            <if test="userPhone != null">user_phone,</if>
+            <if test="userAddress != null">user_address,</if>
+            <if test="cartId != null">cart_id,</if>
+            <if test="freightPrice != null">freight_price,</if>
+            <if test="totalNum != null">total_num,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="totalPostage != null">total_postage,</if>
+            <if test="payPrice != null">pay_price,</if>
+            <if test="payPostage != null">pay_postage,</if>
+            <if test="deductionPrice != null">deduction_price,</if>
+            <if test="couponId != null">coupon_id,</if>
+            <if test="couponPrice != null">coupon_price,</if>
+            <if test="paid != null">paid,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="payType != null">pay_type,</if>
+            <if test="addTime != null">add_time,</if>
+            <if test="status != null">`status`,</if>
+            <if test="refundStatus != null">refund_status,</if>
+            <if test="refundReasonWapImg != null">refund_reason_wap_img,</if>
+            <if test="refundReasonWapExplain != null">refund_reason_wap_explain,</if>
+            <if test="refundReasonTime != null">refund_reason_time,</if>
+            <if test="refundReasonWap != null">refund_reason_wap,</if>
+            <if test="refundReason != null">refund_reason,</if>
+            <if test="refundPrice != null">refund_price,</if>
+            <if test="deliverySn != null">delivery_sn,</if>
+            <if test="deliveryName != null">delivery_name,</if>
+            <if test="deliveryType != null">delivery_type,</if>
+            <if test="deliveryId != null">delivery_id,</if>
+            <if test="gainIntegral != null">gain_integral,</if>
+            <if test="useIntegral != null">use_integral,</if>
+            <if test="backIntegral != null">back_integral,</if>
+            <if test="mark != null">mark,</if>
+            <if test="isDel != null">is_del,</if>
+            <if test="remark != null">remark,</if>
+            <if test="isMerCheck != null">is_mer_check,</if>
+            <if test="cost != null">cost,</if>
+            <if test="verifyCode != null">verify_code,</if>
+            <if test="storeId != null">store_id,</if>
+            <if test="shippingType != null">shipping_type,</if>
+            <if test="isChannel != null">is_channel,</if>
+            <if test="isRemind != null">is_remind,</if>
+            <if test="isSystemDel != null">is_system_del,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">#{orderId},</if>
+            <if test="extendOrderId != null">#{extendOrderId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="userPhone != null">#{userPhone},</if>
+            <if test="userAddress != null">#{userAddress},</if>
+            <if test="cartId != null">#{cartId},</if>
+            <if test="freightPrice != null">#{freightPrice},</if>
+            <if test="totalNum != null">#{totalNum},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="totalPostage != null">#{totalPostage},</if>
+            <if test="payPrice != null">#{payPrice},</if>
+            <if test="payPostage != null">#{payPostage},</if>
+            <if test="deductionPrice != null">#{deductionPrice},</if>
+            <if test="couponId != null">#{couponId},</if>
+            <if test="couponPrice != null">#{couponPrice},</if>
+            <if test="paid != null">#{paid},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="payType != null">#{payType},</if>
+            <if test="addTime != null">#{addTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="refundStatus != null">#{refundStatus},</if>
+            <if test="refundReasonWapImg != null">#{refundReasonWapImg},</if>
+            <if test="refundReasonWapExplain != null">#{refundReasonWapExplain},</if>
+            <if test="refundReasonTime != null">#{refundReasonTime},</if>
+            <if test="refundReasonWap != null">#{refundReasonWap},</if>
+            <if test="refundReason != null">#{refundReason},</if>
+            <if test="refundPrice != null">#{refundPrice},</if>
+            <if test="deliverySn != null">#{deliverySn},</if>
+            <if test="deliveryName != null">#{deliveryName},</if>
+            <if test="deliveryType != null">#{deliveryType},</if>
+            <if test="deliveryId != null">#{deliveryId},</if>
+            <if test="gainIntegral != null">#{gainIntegral},</if>
+            <if test="useIntegral != null">#{useIntegral},</if>
+            <if test="backIntegral != null">#{backIntegral},</if>
+            <if test="mark != null">#{mark},</if>
+            <if test="isDel != null">#{isDel},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="isMerCheck != null">#{isMerCheck},</if>
+            <if test="cost != null">#{cost},</if>
+            <if test="verifyCode != null">#{verifyCode},</if>
+            <if test="storeId != null">#{storeId},</if>
+            <if test="shippingType != null">#{shippingType},</if>
+            <if test="isChannel != null">#{isChannel},</if>
+            <if test="isRemind != null">#{isRemind},</if>
+            <if test="isSystemDel != null">#{isSystemDel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApmStoreOrder" parameterType="ApmStoreOrder">
+        update apm_store_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+            <if test="extendOrderId != null">extend_order_id = #{extendOrderId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="userPhone != null">user_phone = #{userPhone},</if>
+            <if test="userAddress != null">user_address = #{userAddress},</if>
+            <if test="cartId != null">cart_id = #{cartId},</if>
+            <if test="freightPrice != null">freight_price = #{freightPrice},</if>
+            <if test="totalNum != null">total_num = #{totalNum},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="totalPostage != null">total_postage = #{totalPostage},</if>
+            <if test="payPrice != null">pay_price = #{payPrice},</if>
+            <if test="payPostage != null">pay_postage = #{payPostage},</if>
+            <if test="deductionPrice != null">deduction_price = #{deductionPrice},</if>
+            <if test="couponId != null">coupon_id = #{couponId},</if>
+            <if test="couponPrice != null">coupon_price = #{couponPrice},</if>
+            <if test="paid != null">paid = #{paid},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="payType != null">pay_type = #{payType},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="refundStatus != null">refund_status = #{refundStatus},</if>
+            <if test="refundReasonWapImg != null">refund_reason_wap_img = #{refundReasonWapImg},</if>
+            <if test="refundReasonWapExplain != null">refund_reason_wap_explain = #{refundReasonWapExplain},</if>
+            <if test="refundReasonTime != null">refund_reason_time = #{refundReasonTime},</if>
+            <if test="refundReasonWap != null">refund_reason_wap = #{refundReasonWap},</if>
+            <if test="refundReason != null">refund_reason = #{refundReason},</if>
+            <if test="refundPrice != null">refund_price = #{refundPrice},</if>
+            <if test="deliverySn != null">delivery_sn = #{deliverySn},</if>
+            <if test="deliveryName != null">delivery_name = #{deliveryName},</if>
+            <if test="deliveryType != null">delivery_type = #{deliveryType},</if>
+            <if test="deliveryId != null">delivery_id = #{deliveryId},</if>
+            <if test="gainIntegral != null">gain_integral = #{gainIntegral},</if>
+            <if test="useIntegral != null">use_integral = #{useIntegral},</if>
+            <if test="backIntegral != null">back_integral = #{backIntegral},</if>
+            <if test="mark != null">mark = #{mark},</if>
+            <if test="isDel != null">is_del = #{isDel},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="isMerCheck != null">is_mer_check = #{isMerCheck},</if>
+            <if test="cost != null">cost = #{cost},</if>
+            <if test="verifyCode != null">verify_code = #{verifyCode},</if>
+            <if test="storeId != null">store_id = #{storeId},</if>
+            <if test="shippingType != null">shipping_type = #{shippingType},</if>
+            <if test="isChannel != null">is_channel = #{isChannel},</if>
+            <if test="isRemind != null">is_remind = #{isRemind},</if>
+            <if test="isSystemDel != null">is_system_del = #{isSystemDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deletedApmStoreOrderByIds">
+        update apm_store_order set is_del = 1 where order_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="deleteApmStoreOrderById" parameterType="Integer">
+        delete from apm_store_order where id = #{id}
+    </delete>
+
+    <delete id="deleteApmStoreOrderByIds" parameterType="String">
+        delete from apm_store_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

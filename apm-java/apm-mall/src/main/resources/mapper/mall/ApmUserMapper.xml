@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.saberking.jvav.apm.mall.mapper.ApmUserMapper">
+
+    <resultMap type="ApmUser" id="ApmUserResult">
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="userType" column="user_type"/>
+        <result property="email" column="email"/>
+        <result property="phoneNumber" column="phonenumber"/>
+        <result property="sex" column="sex"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="loginIp" column="login_ip"/>
+        <result property="loginDate" column="login_date"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="realName" column="real_name"/>
+        <result property="birthday" column="birthday"/>
+        <result property="cardId" column="card_id"/>
+        <result property="integral" column="integral"/>
+        <result property="signNum" column="sign_num"/>
+        <result property="level" column="level"/>
+        <result property="payCount" column="pay_count"/>
+        <result property="address" column="address"/>
+        <result property="loginType" column="login_type"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectApmUserVo">
+        select user_id,
+               user_name,
+               nick_name,
+               user_type,
+               email,
+               phonenumber,
+               sex,
+               avatar,
+               password,
+               status,
+               del_flag,
+               login_ip,
+               login_date,
+               create_time,
+               update_by,
+               update_time,
+               real_name,
+               birthday,
+               card_id,
+               integral,
+               sign_num,
+               level,
+               pay_count,
+               address,
+               login_type,
+               remark
+        from apm_user
+    </sql>
+
+    <select id="selectApmUserList" parameterType="ApmUser" resultMap="ApmUserResult">
+        <include refid="selectApmUserVo"/>
+        <where>
+            del_flag = '0'
+            <if test="userName != null  and userName != ''">and user_name = #{userName}</if>
+            <if test="nickName != null  and nickName != ''">and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="phoneNumber != null  and phoneNumber != ''">and phonenumber = #{phoneNumber}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+            <if test="beginTime != null and beginTime != '' and endTime != null and endTime != ''">
+                and create_time between #{beginTime} and #{endTime}
+            </if>
+            <if test="realName != null  and realName != ''">and real_name = #{realName}</if>
+            <if test="beginNum != null and endNum != null">
+                and pay_count between #{beginNum} and #{endNum}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserByUserName" parameterType="String" resultMap="ApmUserResult">
+        <include refid="selectApmUserVo"/>
+        where user_name = #{userName}
+    </select>
+
+    <select id="checkUserNameUnique" parameterType="String" resultType="int">
+        select count(1) from apm_user where user_name = #{userName} limit 1
+    </select>
+
+    <select id="checkPhoneUnique" parameterType="String" resultMap="ApmUserResult">
+        select user_id, phonenumber from apm_user where phonenumber = #{phoneNumber} limit 1
+    </select>
+
+    <select id="selectApmUserById" parameterType="Long" resultMap="ApmUserResult">
+        <include refid="selectApmUserVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertApmUser" parameterType="ApmUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into apm_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="nickName != null and nickName != ''">nick_name,</if>
+            <if test="userType != null and userType != ''">user_type,</if>
+            <if test="email != null">email,</if>
+            <if test="phoneNumber != null and phoneNumber != ''">phonenumber,</if>
+            <if test="sex != null">sex,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="loginIp != null">login_ip,</if>
+            <if test="loginDate != null">login_date,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="realName != null">real_name,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="cardId != null">card_id,</if>
+            <if test="integral != null">integral,</if>
+            <if test="signNum != null">sign_num,</if>
+            <if test="level != null">level,</if>
+            <if test="payCount != null">pay_count,</if>
+            <if test="address != null">address,</if>
+            <if test="loginType != null">login_type,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="nickName != null and nickName != ''">#{nickName},</if>
+            <if test="userType != null and userType != ''">#{userType},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phoneNumber != null and phoneNumber != ''">#{phoneNumber},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="cardId != null">#{cardId},</if>
+            <if test="integral != null">#{integral},</if>
+            <if test="signNum != null">#{signNum},</if>
+            <if test="level != null">#{level},</if>
+            <if test="payCount != null">#{payCount},</if>
+            <if test="address != null">#{address},</if>
+            <if test="loginType != null">#{loginType},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateApmUser" parameterType="ApmUser">
+        update apm_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="userType != null and userType != ''">user_type = #{userType},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phoneNumber != null and phoneNumber != ''">phonenumber = #{phoneNumber},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="loginIp != null">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="cardId != null">card_id = #{cardId},</if>
+            <if test="integral != null">integral = #{integral},</if>
+            <if test="signNum != null">sign_num = #{signNum},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="payCount != null">pay_count = #{payCount},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="loginType != null">login_type = #{loginType},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = sysdate()
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <update id="deletedApmUserByIds">
+        update apm_user set del_flag = '1' where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </update>
+
+    <delete id="deleteApmUserById" parameterType="Long">
+        delete
+        from apm_user
+        where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteApmUserByIds">
+        delete from apm_user where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+</mapper>

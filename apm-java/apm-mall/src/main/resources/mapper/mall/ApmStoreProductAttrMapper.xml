@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.saberking.jvav.apm.mall.mapper.ApmStoreProductAttrMapper">
+
+    <resultMap type="ApmStoreProductAttr" id="ApmStoreProductAttrResult">
+        <result property="id" column="id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="attrName" column="attr_name"/>
+        <result property="attrValues" column="attr_values"/>
+    </resultMap>
+
+    <sql id="selectApmStoreProductAttrVo">
+        select id, product_id, attr_name, attr_values
+        from apm_store_product_attr
+    </sql>
+
+    <sql id="selectApmProductAttrVo">
+        select a.*,p.store_name as product_name
+        from apm_store_product_attr a, apm_store_product p
+    </sql>
+
+    <select id="selectApmStoreProductAttrList" parameterType="ApmStoreProductAttr"
+            resultMap="ApmStoreProductAttrResult">
+        <include refid="selectApmStoreProductAttrVo"/>
+        <where>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="attrName != null  and attrName != ''">and attr_name like concat('%', #{attrName}, '%')</if>
+            <if test="attrValues != null  and attrValues != ''">and attr_values = #{attrValues}</if>
+        </where>
+    </select>
+
+    <select id="selectApmProductAttrList" parameterType="ApmStoreProductAttr"
+            resultMap="ApmStoreProductAttrResult">
+        <include refid="selectApmProductAttrVo"/>
+        <where>
+            a.product_id = p.id
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="productName != null ">and p.store_name like concat('%', #{productName}, '%')</if>
+            <if test="attrName != null  and attrName != ''">and attr_name like concat('%', #{attrName}, '%')</if>
+            <if test="attrValues != null  and attrValues != ''">and attr_values = #{attrValues}</if>
+        </where>
+    </select>
+
+    <select id="selectApmStoreProductAttrById" parameterType="Integer" resultMap="ApmStoreProductAttrResult">
+        <include refid="selectApmStoreProductAttrVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertApmStoreProductAttr" parameterType="ApmStoreProductAttr" useGeneratedKeys="true" keyProperty="id">
+        insert into apm_store_product_attr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="attrName != null and attrName != ''">attr_name,</if>
+            <if test="attrValues != null and attrValues != ''">attr_values,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="attrName != null and attrName != ''">#{attrName},</if>
+            <if test="attrValues != null and attrValues != ''">#{attrValues},</if>
+        </trim>
+    </insert>
+
+    <update id="updateApmStoreProductAttr" parameterType="ApmStoreProductAttr">
+        update apm_store_product_attr
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="attrName != null and attrName != ''">attr_name = #{attrName},</if>
+            <if test="attrValues != null and attrValues != ''">attr_values = #{attrValues},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApmStoreProductAttrById" parameterType="Integer">
+        delete
+        from apm_store_product_attr
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteApmStoreProductAttrByIds" parameterType="String">
+        delete from apm_store_product_attr where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
